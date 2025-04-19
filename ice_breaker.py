@@ -1,10 +1,10 @@
 from dotenv import load_dotenv
 from langchain.prompts.prompt import PromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
 if __name__ == "__main__":
     load_dotenv()
-
+ 
     print("Hello LangChain")
     information = """
         Elon Reeve Musk (/ˈiːlɒn/; EE-lon; born June 28, 1971) is a businessman and investor. He is the founder, chairman, CEO, and CTO of SpaceX; angel investor, CEO, product architect and former chairman of Tesla, Inc.; owner, chairman and CTO of X Corp.; founder of the Boring Company and xAI; co-founder of Neuralink and OpenAI; and president of the Musk Foundation. He is the wealthiest person in the world, with an estimated net worth of US$232 billion as of December 2023, according to the Bloomberg Billionaires Index, and $254 billion according to Forbes, primarily from his ownership stakes in Tesla and SpaceX.[5][6]
@@ -25,7 +25,10 @@ In October 2002, eBay acquired PayPal for $1.5 billion, and that same year, with
         input_variables=["information"], template=summary_template
     )
 
-    llm = ChatOpenAI(temperature=0)
+    llm = ChatGroq(
+        temperature=0,
+        model_name="llama3-70b-8192"  # Choose a model available on Groq
+    )
 
     chain = summary_prompt_template | llm
     res = chain.invoke(input={"information": information})
